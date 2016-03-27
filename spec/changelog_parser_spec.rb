@@ -7,64 +7,70 @@ describe ChangelogParser do
 
   context 'parse_changelog' do
     it 'will nest descriptions and empty lines beneath the correct section' do
-      title = '## Title thing'
-      first_subtitle = '### First Subtitle'
-      second_subtitle = '### Second Subtitle'
       array = [
-        title,
-        first_subtitle,
-        " - Description",
-        "Desc",
+        '## [Unreleased]',
+        '### Added',
+        ' - This test for one',
+        '- And this line',
         "\n",
-        second_subtitle,
-        'Another desc'
+        '### Removed',
+        'Something Removed'
       ]
+
+      title = '[Unreleased]'
+      first_subtitle = 'Added'
+      second_subtitle = 'Removed'
 
       result = parser.parse_changelog(array)
 
       expect(result[title].keys).to match_array([first_subtitle, second_subtitle])
-      expect(result[title][first_subtitle]).to match_array([' - Description', 'Desc', "\n"])
-      expect(result[title][second_subtitle]).to match_array(['Another desc'])
+      expect(result[title][first_subtitle]).to match_array([' - This test for one', '- And this line', "\n"])
+      expect(result[title][second_subtitle]).to match_array(['Something Removed'])
     end
 
-    # it 'will work when there is an empty line between the sections' do
-    #   title = '## First'
-    #   second_title = '## Second'
-    #   first_subtitle = '### First Sub'
-    #   second_subtitle = '### Second Sub'
-    #   array = [
-    #     title,
-    #     "\n",
-    #     first_subtitle,
-    #     "Desc 1",
-    #     "\n",
-    #     second_title,
-    #     "\n",
-    #     second_subtitle,
-    #     "Desc 2"
-    #   ]
-    #
-    #   result = parser.parse_changelog(array)
-    #
-    #   expect(result[title].keys).to match_array([first_subtitle])
-    #   expect(result[second_title].keys).to match_array(second_subtitle)
-    # end
-    #
-    # it 'will work when regardless of the empty lines between the sections' do
-    #   title = '## First'
-    #   first_subtitle = '### First Sub'
-    #   array = [
-    #     title,
-    #     "\n",
-    #     "\n",
-    #     first_subtitle,
-    #     "Desc 1",
-    #     "\n",
-    #   ]
-    #
-    #   result = parser.parse_changelog(array)
-    #
-    #   expect(result[title].keys).to match_array([first_subtitle])
-    # end
+    it 'will work when there is an empty line between the sections' do
+      array = [
+        '## [Unreleased]',
+        '### Added',
+        ' - This test for one',
+        '## [0.3.0] - 2015-12-03',
+        '### Added',
+        'This was released'
+      ]
+
+      result = parser.parse_changelog(array)
+
+      title = '[Unreleased]'
+      second_title = '[0.3.0] - 2015-12-03'
+      subtitle = 'Added'
+
+      expect(result[title].keys).to match_array([subtitle])
+      expect(result[second_title].keys).to match_array([subtitle])
+      expect(result[second_title][subtitle]).to match_array(['This was released'])
+    end
+
+    it 'will work when regardless of the empty lines between the sections' do
+      array = [
+        '## [Unreleased]',
+        "\n",
+        '### Added',
+        ' - This test for one',
+        '## [0.3.0] - 2015-12-03',
+        "\n",
+        "\n",
+        '### Added',
+        'This was released'
+      ]
+
+      result = parser.parse_changelog(array)
+
+      title = '[Unreleased]'
+      second_title = '[0.3.0] - 2015-12-03'
+      subtitle = 'Added'
+
+      expect(result[title].keys).to match_array([subtitle])
+      expect(result[second_title].keys).to match_array([subtitle])
+      expect(result[second_title][subtitle]).to match_array(['This was released'])
+    end
   end
 end

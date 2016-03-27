@@ -26,7 +26,7 @@ class ChangelogParser
 
         if hashes == 2
           line = validate_section line
-          container[line] = sub_container
+          container[line] = subcontainer
 
           subcontainer = {}
           descriptions = []
@@ -45,16 +45,15 @@ class ChangelogParser
   end
 
   def validate_section(line)
-    line = strip_hashes line
-    binding.pry
+    strip_hashes line
   end
 
   def validate_subsection(line)
-    line.
+    strip_hashes line
   end
 
   private
   def strip_hashes(line)
-    first_half.gsub(/^#{1,3}/,'')
+    line.gsub(/^[#]{1,3} /,'')
   end
 end
