@@ -1,4 +1,5 @@
 require 'changelog_parser'
+require 'changelog_error'
 
 class ChangelogDriver
   attr_accessor :ancestor, :current, :other
