@@ -69,6 +69,23 @@ describe ChangelogParser do
       expect(result[second_title].keys).to match_array([subtitle])
       expect(result[second_title][subtitle]).to match_array(['This was released'])
     end
+
+    it 'will not include any empty lines in the parsed structure' do
+      array = [
+        '## [Unreleased] [unreleased]',
+        '### Added',
+        ' - This test for one',
+        '',
+        ' - This is a second one'
+      ]
+
+      result = parser.parse_changelog(array)
+      title = '[Unreleased] [unreleased]'
+      subtitle = 'Added'
+
+      expect(result[title].keys).to match_array([subtitle])
+      expect(result[title][subtitle]).to match_array([' - This is a second one', ' - This test for one'])
+    end
   end
 
   context '#validate_section' do

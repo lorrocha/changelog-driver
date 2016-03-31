@@ -21,8 +21,8 @@ class ChangelogParser
     container = {}
 
     file.reverse.each do |line|
-      if /^[^#]/ =~ line
-        descriptions.unshift line
+      if /^[^#]*$/ =~ line
+        descriptions.unshift line unless line.empty?
       else
         hashes = line[0,5].count('#')
         if hashes == 2
