@@ -16,12 +16,20 @@ class ChangelogDriver
 
   def merge
     composite_changelog = header
-
   end
 
-  def order_of_sections
+  def ordered_sections
     #start with unreleased, then move to the others in version/date order
-    all = ancestor.keys | current.keys | other.keys
+    all_versions = ancestor.keys | current.keys | other.keys
+
+    unreleased = all_versions.select { |v| v =~ /[Uu]nreleased/ }
+    other_versions = (all_versions - unreleased).sort { |v|
+      /\A\[(?<version>.+)\]/ =~ v
+
+      version.split('.').map(&:to_i)
+    }
+
+    unreleased + other_versions
   end
 
   private
