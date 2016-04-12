@@ -3,18 +3,6 @@ require_relative 'changelog_error'
 class ChangelogParser
   VALID_SUBTITLES = ["Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"]
 
-  def parse_header(file)
-    header = []
-
-    file.each do |line|
-      if line =~ /^[^#]/ || line[0,3].count('#') == 1
-        header << line
-      else
-        return header
-      end
-    end
-  end
-
   def parse_changelog(file)
     descriptions = []
     subcontainer = {}

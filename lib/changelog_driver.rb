@@ -16,6 +16,7 @@ class ChangelogDriver
 
   def merge
     composite_changelog = header
+    binding.pry
   end
 
   def ordered_sections
