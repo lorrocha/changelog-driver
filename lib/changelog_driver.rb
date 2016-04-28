@@ -1,5 +1,7 @@
 require 'changelog_parser'
 require 'changelog_error'
+require 'changelog'
+require 'section'
 
 class ChangelogDriver
   attr_accessor :ancestor, :current, :other, :header
