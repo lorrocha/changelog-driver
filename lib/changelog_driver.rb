@@ -1,5 +1,7 @@
 require 'changelog_parser'
 require 'changelog_error'
+require 'changelog'
+require 'section'
 
 class ChangelogDriver
   attr_accessor :ancestor, :current, :other, :header
@@ -16,6 +18,7 @@ class ChangelogDriver
 
   def merge
     composite_changelog = header
+    binding.pry
   end
 
   def ordered_sections
