@@ -21,8 +21,8 @@ class ChangelogParser
           descriptions = []
         elsif hashes == 3
           release_subtitle = validate_subsection line
-
-          release.send("#{release_subtitle}=".intern, descriptions)
+          release.add(release_subtitle, descriptions)
+          
           descriptions = []
         else
           raise ChangelogError, 'Incorrect Changelog Format: titles can only have 2 or 3 hashes.'

@@ -8,4 +8,9 @@ class Release
       send(section.intern)
     }
   end
+
+  def add(section, item)
+    current_objects = send(section.intern)
+    send "#{section}=", (Array(current_objects) | Array(item))
+  end
 end
