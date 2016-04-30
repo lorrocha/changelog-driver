@@ -8,7 +8,7 @@ describe ChangelogDriver do
 
     cd = ChangelogDriver.new("#{base_file}.base", "#{base_file}.my", "#{base_file}.other").merge
 
-    # TODO:: Actually impliment the test
+    new_changelog = cd.merge
   end
 
 end
