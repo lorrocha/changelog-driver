@@ -65,4 +65,26 @@ describe Release do
       expect(release.added).to eq(release.get('added'))
     end
   end
+
+  context '#to_a' do
+    context 'will return an array' do
+      it 'of all the lines' do
+        release.title = "Some title"
+        release.add('added', "some line")
+        array = ['## Some title', '### Added', 'some line']
+
+        expect(release.to_a).to eq(array)
+      end
+
+      it 'if it has multiple sections as well' do
+        release.title = "Some title"
+        release.add('added', "some line")
+        release.add('changed', ['one', 'two'])
+        array = ['## Some title', '### Added', 'some line',
+          '### Changed', 'one', 'two']
+
+        expect(release.to_a).to eq(array)
+      end
+    end
+  end
 end

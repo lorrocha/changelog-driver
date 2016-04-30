@@ -167,4 +167,30 @@ describe Changelog do
       end
     end
   end
+
+  context '#to_a' do
+    it 'will return an array of all the composite releases' do
+      added_lines = ['one', 'two']
+      changed_line = 'I changed this'
+      unreleased.add('added', added_lines)
+      newest_release.add('changed', changed_line)
+      released.add('changed', changed_line)
+
+      changelog.releases = [unreleased, newest_release, released]
+
+      array = [
+        "## #{unreleased.title}",
+        '### Added',
+        added_lines,
+        "## #{newest_release.title}",
+        '### Changed',
+        changed_line,
+        "## #{released.title}",
+        '### Changed',
+        changed_line
+      ].flatten
+
+      expect(changelog.to_a).to eq(array)
+    end
+  end
 end
