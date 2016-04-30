@@ -32,6 +32,10 @@ class Changelog
     end
   end
 
+  def to_a
+    sorted_releases.flat_map(&:to_a)
+  end
+
   private
   def find_release(title)
     releases.detect { |r| r.title == title }

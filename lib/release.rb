@@ -16,4 +16,12 @@ class Release
   def get(section)
     send(section.intern)
   end
+
+  def to_a
+    all_sections = sections.flat_map { |section|
+      get(section).unshift("### #{section.capitalize}")
+    }
+
+    all_sections.unshift("## #{title}")
+  end
 end
