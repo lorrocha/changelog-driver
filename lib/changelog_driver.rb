@@ -12,9 +12,8 @@ class ChangelogDriver
     @other = parse(file_lines(other))
   end
 
-  def merge
-    composite_changelog = header
-    binding.pry
+  def changelog
+    current.merge(other)
   end
 
   private

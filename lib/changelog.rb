@@ -36,6 +36,14 @@ class Changelog
     sorted_releases.flat_map(&:to_a)
   end
 
+  def merge(other)
+    Changelog.new.tap { |new_changelog|
+      (other.releases | releases).each do |release|
+        new_changelog.add_release(release.dup)
+      end
+    }
+  end
+
   private
   def find_release(title)
     releases.detect { |r| r.title == title }

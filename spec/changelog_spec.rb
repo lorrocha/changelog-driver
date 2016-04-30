@@ -193,4 +193,25 @@ describe Changelog do
       expect(changelog.to_a).to eq(array)
     end
   end
+
+  context '#merge' do
+    it 'will return a new changelog that merges the other changelogs without altering the parents' do
+      unreleased.add('added', 'my changelog')
+      changelog.releases << unreleased
+
+      second_unreleased = Release.new
+      second_unreleased.title = '[Unreleased] [unreleased]'
+      second_unreleased.add('added',['other changelog'])
+
+      other_changelog = Changelog.new
+      other_changelog.releases << second_unreleased
+
+      new_changelog = changelog.merge(other_changelog)
+
+      expect(new_changelog.unreleased.added).to eq(['other changelog', 'my changelog'])
+      expect(changelog.unreleased.added).to eq(['my changelog'])
+      expect(other_changelog.unreleased.added).to eq(['other changelog'])
+
+    end
+  end
 end
