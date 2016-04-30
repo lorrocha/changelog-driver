@@ -54,4 +54,15 @@ describe Release do
       end
     end
   end
+
+  context '#get' do
+    it 'will return the contents of a section if you give it a string' do
+      release.add('added', 'hey I just added this guy')
+
+      expect(release.added).to eq(release.get('added'))
+      release.add('added', 'this is a second string')
+
+      expect(release.added).to eq(release.get('added'))
+    end
+  end
 end

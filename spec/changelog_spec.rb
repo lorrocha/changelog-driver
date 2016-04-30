@@ -99,7 +99,72 @@ describe Changelog do
         expect(changelog.sorted_releases).to \
           eq([unreleased, future_release, newest_release, released, oldest_release])
       end
+    end
+  end
 
+  context '#add_release' do
+    let(:unreleased_with_added) {
+      r = Release.new
+      r.title = '[Unreleased] [unreleased]'
+      r.added = ['added line']
+      r
+    }
+
+    let(:unreleased_with_added2) {
+      r = Release.new
+      r.title = '[Unreleased] [unreleased]'
+      r.added = ['second added line']
+      r
+    }
+
+    let(:unreleased_with_changed) {
+      r = Release.new
+      r.title = '[Unreleased] [unreleased]'
+      r.changed = ['changed line']
+      r
+    }
+
+    let(:super_unreleased) {
+      r = Release.new
+      r.title = '[Unreleased] [unreleased]'
+      r.changed = ['changed line']
+      r.added = ['second added line']
+      r
+    }
+
+    context 'when a release of that title doesnt already exist' do
+      it 'will add the release' do
+        changelog.add_release(unreleased_with_added)
+
+        expect(changelog.unreleased.added).to eq(['added line'])
+      end
+    end
+
+    context 'when a release of that title does already exist' do
+      it 'will add a missing section' do
+        changelog.add_release(unreleased_with_added)
+        changelog.add_release(unreleased_with_changed)
+
+        expect(changelog.unreleased.added).to eq(['added line'])
+        expect(changelog.unreleased.changed).to eq(['changed line'])
+      end
+
+      it 'will add missing lines to an existing section' do
+        changelog.add_release(unreleased_with_added)
+        changelog.add_release(unreleased_with_added2)
+
+        expect(changelog.unreleased.added).to \
+          match_array(['added line', 'second added line'])
+      end
+
+      it 'will add both missing sections and lines to sections' do
+        changelog.add_release(unreleased_with_added)
+        changelog.add_release(super_unreleased)
+
+        expect(changelog.unreleased.added).to \
+          match_array(['added line', 'second added line'])
+        expect(changelog.unreleased.changed).to eq(['changed line'])
+      end
     end
   end
 end

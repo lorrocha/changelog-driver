@@ -1,7 +1,7 @@
 class Release
-  attr_accessor :title, :added, :changed, :deprecated, :removed, :fixed, :security
+  attr_accessor :title, :added, :changed, :removed, :fixed, :deprecated, :security
 
-  VALID_SUBTITLES = ["added", "changed", "deprecated", "removed", "fixed", "security"]
+  VALID_SUBTITLES = ["added", "changed", "removed", "fixed", "deprecated", "security"]
 
   def sections
     VALID_SUBTITLES.select { |section|
@@ -10,7 +10,10 @@ class Release
   end
 
   def add(section, item)
-    current_objects = send(section.intern)
-    send "#{section}=", (Array(current_objects) | Array(item))
+    send "#{section}=", (Array(get section) | Array(item))
+  end
+
+  def get(section)
+    send(section.intern)
   end
 end
