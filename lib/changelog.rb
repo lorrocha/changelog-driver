@@ -1,5 +1,5 @@
 class Changelog
-  attr_accessor :releases
+  attr_accessor :releases, :prefix
 
   def initialize
     @releases = []
@@ -33,11 +33,13 @@ class Changelog
   end
 
   def to_a
-    sorted_releases.flat_map(&:to_a)
+    Array(prefix) + sorted_releases.flat_map { |release| release.to_a + [''] }
   end
 
   def merge(other)
     Changelog.new.tap { |new_changelog|
+      new_changelog.prefix = prefix
+
       (other.releases | releases).each do |release|
         new_changelog.add_release(release.dup)
       end

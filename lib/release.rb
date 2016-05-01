@@ -5,7 +5,7 @@ class Release
 
   def sections
     VALID_SUBTITLES.select { |section|
-      send(section.intern)
+      get section
     }
   end
 
@@ -19,9 +19,17 @@ class Release
 
   def to_a
     all_sections = sections.flat_map { |section|
-      get(section).unshift("### #{section.capitalize}")
+      get(section).unshift(decorated_section(section))
     }
 
-    all_sections.unshift("## #{title}")
+    all_sections.unshift(decorated_title)
+  end
+
+  def decorated_title
+    "## #{title}"
+  end
+
+  def decorated_section(name)
+    "### #{name.capitalize}"
   end
 end
