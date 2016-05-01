@@ -1,7 +1,7 @@
 require 'changelog_parser'
 require 'changelog_error'
 require 'changelog'
-require 'section'
+require 'release'
 
 class ChangelogDriver
   attr_accessor :ancestor, :current, :other, :header
@@ -12,7 +12,7 @@ class ChangelogDriver
     @other = parse(file_lines(other))
   end
 
-  def changelog
+  def merge
     current.merge(other)
   end
 
@@ -24,6 +24,6 @@ class ChangelogDriver
   def parse(lines)
     @parser ||= ChangelogParser.new
 
-    @parser.parse_changelog( lines - header )
+    @parser.parse_changelog(lines)
   end
 end

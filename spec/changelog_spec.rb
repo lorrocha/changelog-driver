@@ -182,12 +182,15 @@ describe Changelog do
         "## #{unreleased.title}",
         '### Added',
         added_lines,
+        '',
         "## #{newest_release.title}",
         '### Changed',
         changed_line,
+        '',
         "## #{released.title}",
         '### Changed',
-        changed_line
+        changed_line,
+        ''
       ].flatten
 
       expect(changelog.to_a).to eq(array)
@@ -211,7 +214,6 @@ describe Changelog do
       expect(new_changelog.unreleased.added).to eq(['other changelog', 'my changelog'])
       expect(changelog.unreleased.added).to eq(['my changelog'])
       expect(other_changelog.unreleased.added).to eq(['other changelog'])
-
     end
   end
 end
