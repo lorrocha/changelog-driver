@@ -1,5 +1,6 @@
 require 'changelog_parser'
 require 'changelog_error'
+require 'changelog_transcriber'
 require 'changelog'
 require 'release'
 
