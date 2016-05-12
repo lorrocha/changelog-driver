@@ -1,8 +1,8 @@
-require 'changelog_parser'
-require 'changelog_error'
-require 'changelog_transcriber'
-require 'changelog'
-require 'release'
+require 'changelog_driver/changelog_parser'
+require 'changelog_driver/changelog_error'
+require 'changelog_driver/changelog_transcriber'
+require 'changelog_driver/changelog'
+require 'changelog_driver/release'
 
 class ChangelogDriver
   attr_accessor :ancestor, :current, :other, :header

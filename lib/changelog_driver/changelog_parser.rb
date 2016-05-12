@@ -1,7 +1,3 @@
-require_relative 'changelog_error'
-require 'changelog'
-require 'release'
-
 class ChangelogParser
   def parse_changelog(file)
     descriptions = []

@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'changelog_driver'
+
+ancestor, current, other_branch, unknown, filepath, *foobar = ARGV
+cd = ChangelogDriver.new(ancestor, current, other_branch)
+
+begin
+  cd.merge!
+  exit true
+rescue
+  exit false
+end
