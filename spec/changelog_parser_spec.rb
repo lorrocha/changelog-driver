@@ -1,6 +1,6 @@
 require 'rspec'
 require 'pry'
-require_relative '../lib/changelog_parser'
+require_relative '../lib/changelog_driver'
 
 describe ChangelogParser do
   let(:parser) { ChangelogParser.new }
