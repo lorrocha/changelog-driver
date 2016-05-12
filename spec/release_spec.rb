@@ -55,6 +55,52 @@ describe Release do
     end
   end
 
+  context '#remove' do
+    context 'will remove an item' do
+      it 'if the item is a string' do
+        string = "String"
+        release.add('added', string)
+
+        expect(release.added).to match_array([string])
+        release.remove('added', string)
+
+        expect(release.added).to match_array([])
+      end
+
+      it 'if the item is an array' do
+        release.add('added', [1,2,3])
+
+        release.remove('added', [2,3])
+
+        expect(release.added).to match_array([1])
+      end
+    end
+
+    context 'will not remove an item' do
+      it 'from another section' do
+        string = "String"
+        release.add('added', string)
+        release.add('changed', string)
+
+        release.remove('added', string)
+
+        expect(release.changed).to match_array([string])
+        expect(release.added).to match_array([])
+      end
+
+      it 'if the item did not exist' do
+        string = "String"
+        removed = "String to remove"
+        release.add('added', string)
+
+        release.remove('added', removed)
+
+        expect(release.added).to match_array([string])
+      end
+
+    end
+  end
+
   context '#get' do
     it 'will return the contents of a section if you give it a string' do
       release.add('added', 'hey I just added this guy')
@@ -84,6 +130,24 @@ describe Release do
           '### Changed', 'one', 'two']
 
         expect(release.to_a).to eq(array)
+      end
+    end
+  end
+
+  context '#unreleased?' do
+    context 'is unreleased' do
+      it 'will return truthy' do
+        release.title = '[Unreleased] [unreleased]'
+
+        expect(release.unreleased?).to be_truthy
+      end
+    end
+
+    context 'is not unreleased' do
+      it 'will return falsey' do
+        release.title = 'Literally anything else'
+
+        expect(release.unreleased?).to be_falsey
       end
     end
   end

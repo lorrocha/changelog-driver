@@ -10,7 +10,11 @@ class Release
   end
 
   def add(section, item)
-    send "#{section}=", (Array(get section) | Array(item))
+    replace_section section, (Array(get section) | Array(item))
+  end
+
+  def remove(section, item)
+    replace_section section, (Array(get section) - Array(item))
   end
 
   def get(section)
@@ -31,5 +35,14 @@ class Release
 
   def decorated_section(name)
     "### #{name.capitalize}"
+  end
+
+  def unreleased?
+    /[Uu]nreleased/ =~ title
+  end
+
+  private
+  def replace_section(section, replacement)
+    send "#{section}=", replacement
   end
 end

@@ -67,6 +67,6 @@ class ChangelogParser
 
   private
   def strip_hashes(line)
-    line.gsub(/^[#]{1,3} /,'')
+    line.gsub(/^[#]{1,3}[ ]?/,'')
   end
 end

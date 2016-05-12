@@ -6,7 +6,7 @@ class Changelog
   end
 
   def unreleased
-    releases.detect { |r| /[Uu]nreleased/ =~ r.title }
+    @unreleased ||= releases.detect { |r| r.unreleased? }
   end
 
   def released
@@ -30,6 +30,7 @@ class Changelog
     else
       releases << release
     end
+    remove_from_unreleased(release)
   end
 
   def to_a
@@ -49,5 +50,13 @@ class Changelog
   private
   def find_release(title)
     releases.detect { |r| r.title == title }
+  end
+
+  def remove_from_unreleased(release)
+    if unreleased && !release.unreleased?
+      release.sections.each do |section|
+        unreleased.remove(section, release.get(section))
+      end
+    end
   end
 end

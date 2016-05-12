@@ -31,5 +31,13 @@ describe ChangelogDriver do
       expect(finished).to eq(new_changelog.to_a)
     end
 
+    it 'will remove a line from unreleased if it was released in one of the merges' do
+      base_file = "spec/files/remove-from-unreleased"
+      finished = File.read("#{base_file}.finished").split("\n") << ''
+
+      new_changelog = ChangelogDriver.new("#{base_file}.base", "#{base_file}.my", "#{base_file}.other").merge
+
+      expect(finished).to eq(new_changelog.to_a)
+    end
   end
 end
