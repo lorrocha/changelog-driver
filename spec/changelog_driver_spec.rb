@@ -8,7 +8,7 @@ describe ChangelogDriver do
       base_file = "spec/files/simple-test"
       finished = File.read("#{base_file}.finished").split("\n") << ''
 
-      new_changelog = ChangelogDriver.new("#{base_file}.base", "#{base_file}.my", "#{base_file}.other").merge
+      new_changelog = ChangelogDriver.new("#{base_file}.base", "#{base_file}.my", "#{base_file}.other").compose_changelog
 
       expect(finished).to eq(new_changelog.to_a)
     end
@@ -17,7 +17,7 @@ describe ChangelogDriver do
       base_file = "spec/files/larger-test"
       finished = File.read("#{base_file}.finished").split("\n") << ''
 
-      new_changelog = ChangelogDriver.new("#{base_file}.base", "#{base_file}.my", "#{base_file}.other").merge
+      new_changelog = ChangelogDriver.new("#{base_file}.base", "#{base_file}.my", "#{base_file}.other").compose_changelog
 
       expect(finished).to eq(new_changelog.to_a)
     end
@@ -26,7 +26,7 @@ describe ChangelogDriver do
       base_file = "spec/files/reorder-test"
       finished = File.read("#{base_file}.finished").split("\n") << ''
 
-      new_changelog = ChangelogDriver.new("#{base_file}.base", "#{base_file}.my", "#{base_file}.other").merge
+      new_changelog = ChangelogDriver.new("#{base_file}.base", "#{base_file}.my", "#{base_file}.other").compose_changelog
 
       expect(finished).to eq(new_changelog.to_a)
     end
@@ -35,7 +35,7 @@ describe ChangelogDriver do
       base_file = "spec/files/remove-from-unreleased"
       finished = File.read("#{base_file}.finished").split("\n") << ''
 
-      new_changelog = ChangelogDriver.new("#{base_file}.base", "#{base_file}.my", "#{base_file}.other").merge
+      new_changelog = ChangelogDriver.new("#{base_file}.base", "#{base_file}.my", "#{base_file}.other").compose_changelog
 
       expect(finished).to eq(new_changelog.to_a)
     end
