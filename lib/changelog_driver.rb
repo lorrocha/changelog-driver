@@ -8,7 +8,7 @@ class ChangelogDriver
   attr_accessor :ancestor, :current, :other, :header
 
   def initialize(ancestor, current, other)
-    @ancestor_path = ancestor
+    @current_path = current
     @ancestor = parse(file_lines(ancestor))
     @current = parse(file_lines(current))
     @other = parse(file_lines(other))
@@ -21,7 +21,7 @@ class ChangelogDriver
   def merge
     ct = ChangelogTranscriber.new(compose_changelog)
 
-    ct.write_to @ancestor_path
+    ct.write_to @current_path
   end
 
   private

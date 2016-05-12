@@ -3,11 +3,14 @@
 require 'changelog_driver'
 
 ancestor, current, other_branch, unknown, filepath, *foobar = ARGV
-cd = ChangelogDriver.new(ancestor, current, other_branch)
+cd = ChangelogDriver.new ancestor, current, other_branch
 
 begin
-  cd.merge!
-  exit true
-rescue
-  exit false
+  puts "Merging CHANGELOGs using the changelog-driver..."
+  cd.merge
+  puts "Changelog Merger was successful"
+rescue => e
+  puts "There was an error in the changelog merge"
+  puts "it failed with #{e.message}: #{e.description}"
+  exit 1
 end
